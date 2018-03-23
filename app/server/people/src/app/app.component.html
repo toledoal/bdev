@@ -6,16 +6,16 @@
 
   <div>
     <h3>Add Person</h3>
-    <input type="text" id="newPerson"/>
+    <input [(ngModel)]="name$"/>
     <button (click)="addPerson()">Add</button>
   </div>
 
   <ul>
     <li *ngFor="let person of people$">
      <div>
-       <input type="text" value="person.name"/>
-       <button (click)="updatePerson()">Update</button>
-       <button (click)="deletePerson()">Remove</button>
+       <input [(ngModel)]="person.name"/>
+       <button (click)="updatePerson($event, person)">Update</button>
+       <button (click)="deletePerson($event, person.id)">Remove</button>
      </div> 
     </li>
   </ul>

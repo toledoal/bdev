@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ApiService } from './api.service';
+import { Person } from './interfaces/person';
 
 @Component({
   selector: 'app-root',
@@ -7,27 +8,38 @@ import { ApiService } from './api.service';
   styleUrls: ['./app.component.css'],
   providers: [ApiService]
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
 
-  public people$;
-  public person$;
+  public people$: Person[];
+  public person$: Person;
+  public name$: string;
   constructor(private apiService: ApiService) {
   }
 
-  ngInit() {
-    this.people$ = this.apiService.getPeople();
+  ngOnInit(): void {
+    this.refresh();
   }
 
-  updatePerson() {
-    this.apiService.updatePerson(this.person$);
+  refresh() {
+    this.apiService.getPeople().subscribe((people) => {
+      this.people$ = people;
+    } );
   }
 
-  deletePerson() {
-    this.apiService.deletePerson(this.person$);
+  updatePerson(e, person: Person) {
+    this.apiService.updatePerson(person);
+    this.refresh();
+  }
+
+  deletePerson(e, id: string) {
+    this.apiService.deletePerson(id);
+    this.refresh();
   }
 
   addPerson() {
-    this.apiService.createPerson(this.person$);
+    this.apiService.createPerson(this.name$);
+    this.name$ = '';
+    this.refresh();
   }
 
 }

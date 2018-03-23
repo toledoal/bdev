@@ -1,4 +1,5 @@
 const express = require('express');
+const bodyParser = require('body-parser');
 const path = require('path');
 const app = express();
 const db = require('./db');
@@ -8,16 +9,20 @@ console.log(__dirname);
 //console.log(path.join(__dirname, 'client/people/dist/'));
 app.use(express.static(path.join(__dirname, 'people/dist')));
 
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended:true}));
+
+
 app.get('/api/read', (req, res) => {
     res.json({data:people});
 });
 
-app.put('/api/update', (req, res) => {
-    if (req.query.name && req.query.id){
-        let id = req.query.id;
+app.put('/api/update/:id', (req, res) => {
+    if (req.body.name && req.body.id){
+        let id = req.params.id;
         people.find(person => {
-        if (person.id = id){
-            person.name = req.query.name;
+        if (person.id === id){
+            person.name = req.body.name;
             res.json({data:`${id} updated`});
             }
         });
@@ -25,18 +30,19 @@ app.put('/api/update', (req, res) => {
 });
 
 app.post('/api/create', (req, res) => {
-    if (req.query.name){
+    console.log("post");
+    if (req.body.name){
         var createdId = Math.random().toString(36).substring(2, 15);
-        people.push({id:createdId, name: req.query.name});
-        res.json({data:`${id} created`});
+        people.push({ id:createdId, name: req.body.name });
+        res.json({data:`${createdId} created`});
     } else{
         res.json({data:`error`});
     }
 });
 
-app.delete('/api/delete', (req, res) => {
-    if (req.query.id){
-        let id = req.query.id;
+app.delete('/api/delete/:id', (req, res) => {
+    if (req.params.id){
+        let id = req.params.id;
         people.find(person => {
         if (person.id === id){
             people.splice(people.indexOf(person),1);
