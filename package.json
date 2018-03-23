@@ -1,0 +1,28 @@
+{
+  "name": "bairesdev",
+  "version": "1.0.0",
+  "description": "A Nodejs/Angular sample for CRUD operations",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/toledoal/bdev.git"
+  },
+  "keywords": [
+    "baires",
+    "dev",
+    "nodejs"
+  ],
+  "author": "Alejandro Toledo",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/toledoal/bdev/issues"
+  },
+  "homepage": "https://github.com/toledoal/bdev#readme",
+  "dependencies": {
+    "express": "^4.16.3"
+  }
+}
